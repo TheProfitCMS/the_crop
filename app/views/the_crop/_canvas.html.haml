@@ -1,0 +1,34 @@
+- content_for :the_crop do
+  .the_crop_canvas.js_the_crop_canvas
+    .the_crop_body
+      .header_block
+        = link_to "Close", '#', class: 'btn btn-info the_crop_close js_the_crop_close'
+
+        %p
+          Original image size:
+          %span.js_the_crop_src_size ?
+
+        %p
+          Cropped image size:
+          %span.js_the_crop_cropped_size ?
+
+        %p{ style: 'display:none' }
+          Image will be resized to:
+          %span.js_the_crop_final_size ?
+
+      .images_block
+        .source_image.js_source_image
+          %img#js_jcrop_target{ src: @post.main_image.url(:original) }
+
+        .preview_image.js_preview_image
+          %img#js_preview{ src: @post.main_image.url(:original) }
+
+      .actions
+        = link_to "Crop!", '#', class: 'btn btn-info js_the_crop_submit'
+
+      = form_tag '#', class: :js_crop_form, method: :patch, remote: true, style: 'display:none' do
+        = text_field_tag 'crop[img_w]'
+        = text_field_tag 'crop[x]'
+        = text_field_tag 'crop[y]'
+        = text_field_tag 'crop[w]'
+        = text_field_tag 'crop[h]'
