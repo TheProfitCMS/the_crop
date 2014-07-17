@@ -18,10 +18,10 @@
 
       .images_block
         .source_image.js_source_image
-          %img#js_jcrop_target{ src: @post.main_image.url(:original) }
+          %img#js_jcrop_target{ src: image }
 
         .preview_image.js_preview_image
-          %img#js_preview{ src: @post.main_image.url(:original) }
+          %img#js_preview{ src: image }
 
       .actions
         = link_to "Crop!", '#', class: 'btn btn-info js_the_crop_submit'
