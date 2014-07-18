@@ -2,18 +2,18 @@
   .the_crop_canvas.js_the_crop_canvas
     .the_crop_body
       .header_block
-        = link_to "Close", '#', class: 'btn btn-info the_crop_close js_the_crop_close'
+        = link_to "Закрыть", '#', class: 'btn btn-info the_crop_close js_the_crop_close'
 
         %p
-          Original image size:
+          Размер оригинала:
           %span.js_the_crop_src_size ?
 
         %p
-          Cropped image size:
+          Размер выделенной части:
           %span.js_the_crop_cropped_size ?
 
         %p{ style: 'display:none' }
-          Image will be resized to:
+          Изображение будет приведено к размеру:
           %span.js_the_crop_final_size ?
 
       .images_block
@@ -24,7 +24,7 @@
           %img#js_preview{ src: image }
 
       .actions
-        = link_to "Crop!", '#', class: 'btn btn-info js_the_crop_submit'
+        = link_to "Обрезать", '#', class: 'btn btn-info js_the_crop_submit'
 
       = form_tag '#', class: :js_crop_form, method: :patch, remote: true, style: 'display:none' do
         = text_field_tag 'crop[img_w]'
