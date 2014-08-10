@@ -118,8 +118,8 @@
     holder.css { height: src_img_height }
 
   set_original_image_size_info: ->
-    w = @by_id('js_jcrop_target').width
-    h = @by_id('js_jcrop_target').height
+    w = @by_id('js_jcrop_target').naturalWidth
+    h = @by_id('js_jcrop_target').naturalHeight
 
     $('.js_the_crop_src_size').html """
       #{ w }x#{ h } (px)
@@ -164,7 +164,7 @@
     original_view_w = TheCrop.dec original_img.css('width')
     original_view_h = TheCrop.dec original_img.css('height')
 
-    orig_image_w = TheCrop.by_id('js_jcrop_target').width
+    orig_image_w = TheCrop.by_id('js_jcrop_target').naturalWidth
 
     # Calculate scale
     scale = original_view_w / orig_image_w
