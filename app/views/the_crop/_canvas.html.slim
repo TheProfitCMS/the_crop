@@ -4,24 +4,24 @@
       .header_block
         = link_to "Закрыть", '#', class: 'btn btn-info the_crop_close js_the_crop_close'
 
-        %p
+        p
           Размер оригинала:
-          %span.js_the_crop_src_size ?
+          span.js_the_crop_src_size ?
 
-        %p
+        p
           Размер выделенной части:
-          %span.js_the_crop_cropped_size ?
+          span.js_the_crop_cropped_size ?
 
-        %p{ style: 'display:none' }
+        p(style='display:none')
           Изображение будет приведено к размеру:
-          %span.js_the_crop_final_size ?
+          span.js_the_crop_final_size ?
 
       .images_block
         .source_image.js_source_image
-          %img#js_jcrop_target{ src: image }
+          img#js_jcrop_target(src=image)
 
         .preview_image.js_preview_image
-          %img#js_preview{ src: image }
+          img#js_preview(src=image)
 
       .actions
         = link_to "Обрезать", '#', class: 'btn btn-info js_the_crop_submit'
