@@ -1,34 +1,37 @@
 - content_for :the_crop do
-  .the_crop_canvas.js_the_crop_canvas
+  .the_crop_canvas(data={ role: "the_crop_canvas_#{ crop_id }" })
     .the_crop_body
       .header_block
-        = link_to "Закрыть", '#', class: 'btn btn-info the_crop_close js_the_crop_close'
+        = link_to "Закрыть", '#', class: 'btn btn-info the_crop_close', data: { role: :the_crop_close }
 
         p
-          Размер оригинала:
-          span.js_the_crop_src_size ?
-
+          | Размер оригинала:
+          '
+          span@src_size ?
         p
-          Размер выделенной части:
-          span.js_the_crop_cropped_size ?
+          | Размер выделенной части:
+          '
+          span@cropped_size ?
 
         p(style='display:none')
-          Изображение будет приведено к размеру:
-          span.js_the_crop_final_size ?
+          | Изображение будет приведено к размеру:
+          '
+          span@final_size ?
 
       .images_block
-        .source_image.js_source_image
-          img#js_jcrop_target(src=image)
+        .source_image@src_image_holder
+          img@src_image src=image
 
-        .preview_image.js_preview_image
-          img#js_preview(src=image)
+        .preview_image@preview_image_holder
+          img@preview_image src=image
 
       .actions
-        = link_to "Обрезать", '#', class: 'btn btn-info js_the_crop_submit'
+        = link_to "Обрезать", '#', class: 'btn btn-info', data: { role: :crop_submit }
 
-      = form_tag '#', class: :js_crop_form, method: :patch, remote: true, style: 'display:none' do
-        = text_field_tag 'crop[img_w]'
-        = text_field_tag 'crop[x]'
-        = text_field_tag 'crop[y]'
-        = text_field_tag 'crop[w]'
-        = text_field_tag 'crop[h]'
+      = form_tag '#', data: { role: :crop_form }, method: :patch, remote: true, style: 'display:none' do
+        = text_field_tag 'crop[img_w]', '', data: { role: :crop_img_w }
+
+        = text_field_tag 'crop[x]', '', data: { role: :crop_x }
+        = text_field_tag 'crop[y]', '', data: { role: :crop_y }
+        = text_field_tag 'crop[w]', '', data: { role: :crop_w }
+        = text_field_tag 'crop[h]', '', data: { role: :crop_h }

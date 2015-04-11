@@ -1,14 +1,17 @@
 # TheCrop
 
+```scss
+  //= require the_crop/the_crop
+  //= require jcrop/jquery.Jcrop
+```
+
 ```coffee
 //= require the_crop/the_crop
 //= require jcrop/jquery.Jcrop
 //= require ./MyCropCallbacks
-```
 
-```scss
-  //= require the_crop/the_crop
-  //= require jcrop/jquery.Jcrop
+$ ->
+  do TheCrop.init
 ```
 
 ```slim
