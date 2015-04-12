@@ -15,7 +15,7 @@
   define_controls: ->
     @doc    = $ document
     @canvas = $ "@the_crop_canvas_#{ @params.cropId }"
-    @close  = @canvas.find('@close')
+    @close  = @canvas.find('@the_crop_close')
 
     @src_size     = @canvas.find('@src_size')
     @cropped_size = @canvas.find('@cropped_size')
@@ -49,7 +49,7 @@
     @crop_h.val(c.h)
 
   init_submit: ->
-    $('@crop_submit').on 'click', =>
+    $(document).on 'click', '@crop_submit', =>
       form = TheCrop.crop_form
 
       x = TheCrop.crop_x.val()
@@ -62,14 +62,12 @@
       else
         form.submit()
 
-      false
-
   buildPreview: (coords) ->
-    preview_view_w = TheCrop.dec TheCrop.preview_image_holder.css('width')
-    preview_view_h = TheCrop.dec TheCrop.preview_image_holder.css('height')
-
     original_view_w = TheCrop.dec TheCrop.src_image.css('width')
     original_view_h = TheCrop.dec TheCrop.src_image.css('height')
+
+    preview_view_w = TheCrop.dec TheCrop.preview_image_holder.css('width')
+    preview_view_h = TheCrop.dec TheCrop.preview_image_holder.css('height')
 
     orig_image_w = TheCrop.src_image[0].naturalWidth
 
@@ -108,7 +106,7 @@
       TheCrop.api = @
 
   init_open_btn: ->
-    $('@the_crop_open').on 'click', (e) =>
+    $(document).on 'click', '@the_crop_open', (e) =>
       link    = $ e.target
       params  = link.data()
       @params = params if params
@@ -117,19 +115,21 @@
       do @show_canvas
       do @create
 
-      false
-
   init_close_btn: ->
-    $("@the_crop_close").on 'click', =>
+    $(document).keyup (e) =>
+      if e.keyCode is $.ui.keyCode.ESCAPE
+        do @destroy
+        do @hide_canvas
+        window.location.hash = @close.attr('href')
+
+    $(document).on 'click', '@the_crop_close', =>
       do @destroy
       do @hide_canvas
-
-      false
 
   init_ajaxian_callback: ->
     $(document).on 'ajax:success', '@crop_form', (e, data, status, xhr) =>
       callback = null
-      fn_chain = @params.callbackHandler.split '@'
+      fn_chain = @params.callbackHandler.split '.'
 
       for fn in fn_chain
         callback = if callback then callback[fn] else window[fn]
@@ -146,12 +146,11 @@
     @dec(preview.css('width')) / @dec(preview.css('height'))
 
   # SETTERS
-  set_preview_defaults: ->
+  set_preview_dimensions: ->
     @preview_image.css
       width:  300
       height: 300
 
-  set_preview_dimensions: ->
     if prev_opt = @params?.preview
       if prev_opt?.width && prev_opt?.height
         @preview_image_holder.css
@@ -162,18 +161,14 @@
           width:  prev_opt.width
           height: prev_opt.height
 
-  set_holder_defaults: ->
-    if holder_opt = @params?.holder
-      if holder_opt?.width
-        @src_image.css
-          width: holder_opt.width
+  set_src_dimentions: ->
+    @src_image_holder.css
+      width:  @src_image[0].naturalWidth
+      height: @src_image[0].naturalHeight
 
-  set_holder_image_same_dimentions: ->
-    width = @dec @src_image_holder.css 'width'
-    @src_image.css { width: width }
-
-    src_img_height = @dec @src_image.css 'height'
-    @src_image_holder.css { height: src_img_height }
+    @src_image.css
+      width:  @src_image[0].naturalWidth
+      height: @src_image[0].naturalHeight
 
   set_final_size_info: ->
     if @params.finalSize
@@ -192,20 +187,17 @@
     @cropped_size.html """
       #{ w }x#{ h } (px)
     """
+
   # CREATE/DESTROY FUNCTIONS
 
   create: ->
+    do @set_preview_dimensions
     do @set_original_image_size_info
 
-    do @set_preview_defaults
-    do @set_preview_dimensions
-
-    do @set_holder_defaults
-    do @set_holder_image_same_dimentions
-
+    do @set_src_dimentions
     do @set_final_size_info
-    do @init_crop_form
 
+    do @init_crop_form
     do @init_jcrop
 
   destroy: ->

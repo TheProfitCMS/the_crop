@@ -2,7 +2,7 @@
   .the_crop_canvas(data={ role: "the_crop_canvas_#{ crop_id }" })
     .the_crop_body
       .header_block
-        = link_to "Закрыть", '#', class: 'btn btn-info the_crop_close', data: { role: :the_crop_close }
+        = link_to "Закрыть", "#crop_btn_#{ crop_id }", class: 'btn btn-info the_crop_close', data: { role: :the_crop_close }
 
         p
           | Размер оригинала:
@@ -20,15 +20,15 @@
 
       .images_block
         .source_image@src_image_holder
-          img@src_image src=image
+          img@src_image src=crop_image
 
         .preview_image@preview_image_holder
-          img@preview_image src=image
+          img@preview_image src=crop_image
 
       .actions
-        = link_to "Обрезать", '#', class: 'btn btn-info', data: { role: :crop_submit }
+        = link_to "Обрезать", "#crop_btn_#{ crop_id }", class: 'btn btn-info', data: { role: :crop_submit }
 
-      = form_tag '#', data: { role: :crop_form }, method: :patch, remote: true, style: 'display:none' do
+      = form_tag crop_url, data: { role: :crop_form }, method: :patch, remote: true, style: 'display:none' do
         = text_field_tag 'crop[img_w]', '', data: { role: :crop_img_w }
 
         = text_field_tag 'crop[x]', '', data: { role: :crop_x }
